@@ -51,7 +51,7 @@ void Scene::Finalize()
 	//各オブジェクトを消去する
 	for (GameObject* obj : objects)
 	{
-		obj->Fainalize();
+		obj->Finalize();
 		delete obj;
 	}
 	//動的配列の解放
