@@ -1,5 +1,7 @@
 ﻿#include "Player.h"
 #include "../../Utility/InputControl.h"
+#include "../PlayerBomb/Bom.h"
+#include "../../Scene/Scene.h"
 #include"DxLib.h"
 
 //コンストラクタ
@@ -30,7 +32,7 @@ void Player::Initialize()
 	//向きの設定
 	radian = 0.0;
 	//大きさの設定
-	box_size=  64.0;
+	scale = 30.0;
 	//初期画像の設定
 	image = animation[0];
 }
@@ -42,23 +44,22 @@ void Player::Update()
 	Movement();
 	//アニメーション制御
 	AnimeControl();
-}
 
+
+}
 //描画処理
 void Player::Draw() const
 {
 	//プレイヤー画像の描画
-	DrawRotaGraphF(location.x, location.y, 1.0, radian, image, TRUE, flip_flag);
+	DrawRotaGraphF(location.x, location.y, 0.5, radian, image, TRUE, flip_flag);
 
 	//でバック用
-	#if _DEBUG
-		//当たり判定のかしか
-	Vector2D box_collision_upper_left = location - (box_size / 2.0f);
-	Vector2D box_collision_lower_right = location + (box_size / 2.0f);
+#if _DEBUG
+	//当たり判定のかしか
+	Vector2D ul = location - (scale / 2.0f);
+	Vector2D br = location + (scale / 2.0f);
 
-	DrawBoxAA(box_collision_upper_left.x,box_collision_upper_left.y,
-		box_collision_lower_right.x,box_collision_lower_right.y,
-		GetColor(255, 0, 0), FALSE);
+	DrawBoxAA(ul.x, ul.y, br.x, br.y, GetColor(255, 0, 0), FALSE);
 
 #endif
 }
@@ -86,12 +87,12 @@ void Player::Movement()
 	//左右移動
 	if (InputControl::GetKey(KEY_INPUT_LEFT))
 	{
-		velocity.x += -1.0f;
+		velocity.x += -6.0f;
 		flip_flag = TRUE;
 	}
 	else if (InputControl::GetKey(KEY_INPUT_RIGHT))
 	{
-		velocity.x += 1.0f;
+		velocity.x += 6.0f;
 		flip_flag = FALSE;
 	}
 	else
@@ -100,6 +101,22 @@ void Player::Movement()
 	}
 
 	//現在の位置座標に速さを加算する
+	/*location += velocity;*/
+
+	//壁にあたった時の処理
+	if (location.x < (box_size.x / 2.0f))
+	{
+		//左壁
+		velocity.x = 0.0f;
+		location.x = box_size.x / 2.0f;
+	}
+	//右壁
+	else if ((640.0f - (box_size.x / 2.0f)) < location.x)
+	{
+		velocity.x = 0.0f;
+		location.x = 640.0f - box_size.x / 2.0f;
+	}
+	//位置座標を加速度ぶんずらしてあげる
 	location += velocity;
 }
 //あにめーしょん制御
@@ -125,5 +142,6 @@ void Player::AnimeControl()
 		}
 	}
 }
-	
+
+
 

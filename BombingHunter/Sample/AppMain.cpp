@@ -64,7 +64,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		scene->Finalize();
 		delete scene;
 		scene = nullptr;
+	}
 
+	//DXƒ‰ƒCƒuƒ‰ƒŠ‚ÌC—¹ˆ—
+	    DxLib_End();
 		//C—¹ó‘Ô‚ğ’Ê’m
 		return result;
 	}

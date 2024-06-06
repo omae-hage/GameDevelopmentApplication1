@@ -127,7 +127,7 @@ Vector2D& Vector2D::operator /= (const float& scalar)
 	else
 	{
 		this->x /= scalar;
-		this ->y /= scalar;
+		this->y /= scalar;
 	}
 	return *this;
 }
@@ -145,9 +145,10 @@ Vector2D& Vector2D::operator /= (const Vector2D& location)
 	}
 	return *this;
 }
-	void Vector2D::ToInt(int* x, int* y)
-	{
-		*x = static_cast<int>(this->x);
-		*y = static_cast<int>(this->y);
-	}
+void Vector2D::ToInt(int* x, int* y) const
+{
+	*x = static_cast<int>(this->x);
+	*y = static_cast<int>(this->y);
+}
+
 
