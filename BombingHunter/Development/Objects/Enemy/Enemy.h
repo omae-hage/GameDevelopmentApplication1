@@ -9,7 +9,10 @@ private:
 	int flip_flag;  //”½“]ƒOƒ‰ƒt
 	//int set_taim;
 	Vector2D direction;
-
+	int se;
+	bool hit;
+	int rand;
+	bool is_count;
 public:
 	Enemy();
 	~Enemy();
@@ -17,10 +20,13 @@ public:
 	virtual void Initialize() override;  //‰Šú‰»ˆ—
 	virtual void Update() override;    //XVˆ—
 	virtual void Draw() const override; //•`‰æˆ—
-	virtual void Finalize() override;  //C—¹ˆ—
+	virtual void Finalize() override;  //C—¹ˆ—u
 
 	//‚ —L”»’è’Ê’mˆ—
-	/*virtual void OnHitCollision(GameObject* hit_object) override;*/
+	virtual void OnHitCollision(GameObject* hit_object) override;
+	virtual bool deleteObject() override;
+	virtual bool sc_count() override;
+	
 
 private:
 	//ˆÚ“®ˆ—
@@ -33,3 +39,9 @@ public:
 
 
 };
+
+
+
+
+
+//<^^>//

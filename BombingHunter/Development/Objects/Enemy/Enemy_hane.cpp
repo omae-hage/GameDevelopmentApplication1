@@ -3,7 +3,7 @@
 #include"DxLib.h"
 
 //コンストラクタ
-Enemy_hane::Enemy_hane() : animation_count(0), flip_flag(FALSE)
+Enemy_hane::Enemy_hane() : animation_count(0), flip_flag(FALSE), hit()
 {
 	animation[0] = NULL;
 	animation[1] = NULL;
@@ -33,6 +33,8 @@ void Enemy_hane::Initialize()
 	scale = 20.0;
 	//初期画像の設定
 	image = animation[0];
+
+	type = enemy_hane;
 }
 
 //更新処理
@@ -70,10 +72,39 @@ void Enemy_hane::Finalize()
 }
 
 //当たり判定通知処理
-//void Enemy::OnHitCollision(GameObject* hit_object)
-//{
-//	//あたった時の処理
-//}
+void Enemy_hane::OnHitCollision(GameObject* hit_object)
+{
+	//あたった時の処理
+	hit = true;
+
+	is_count = true;
+}
+
+//スコア計算
+bool Enemy_hane::sc_count()
+{
+	bool com = false;
+
+	if (is_count == true)
+	{
+		com = true;
+	}
+
+	return com;
+}
+
+//オブジェクト消去処理
+bool Enemy_hane::deleteObject()
+{
+	bool ret = false;
+
+	if (location.x > 640.0f + box_size.x || location.x < 0.0f - box_size.x || hit == true)
+	{
+		ret = true;
+	}
+
+	return ret;
+}
 //
 //移動処理
 void Enemy_hane::Movement()
@@ -81,10 +112,10 @@ void Enemy_hane::Movement()
 	//右へ移動し続ける
 	location.x += 0.5f;
 	//右の壁に当たると左の壁に行く
-	if (location.x >= 640.0f)
+	/*if (location.x >= 640.0f)
 	{
 		location.x = 0.0f;
-	}
+	}*/
 }
 //あにめーしょん制御
 void Enemy_hane::AnimeControl()

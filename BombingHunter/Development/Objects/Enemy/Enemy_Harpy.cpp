@@ -3,7 +3,7 @@
 #include"DxLib.h"
 
 //コンストラクタ
-Enemy_Harpy::Enemy_Harpy() : animation_count(0), flip_flag(FALSE)
+Enemy_Harpy::Enemy_Harpy() : animation_count(0), flip_flag(FALSE),hit()
 {
 	animation[0] = NULL;
 	animation[1] = NULL;
@@ -33,6 +33,8 @@ void Enemy_Harpy::Initialize()
 	scale = 20.0;
 	//初期画像の設定
 	image = animation[0];
+
+	type = enemy_Harpy;
 }
 
 //更新処理
@@ -61,6 +63,32 @@ void Enemy_Harpy::Draw() const
 #endif
 }
 
+//羽敵を殺した時にスコアを加算
+bool Enemy_Harpy::sc_count()
+{
+	bool com = false;
+
+	if (is_count == true)
+	{
+		com = true;
+	}
+
+	return com;
+}
+
+//羽敵を殺す
+bool Enemy_Harpy::deleteObject()
+{
+	bool ret = false;
+
+	if (location.x > 640.0f + box_size.x || location.x < 0.0f - box_size.x || hit == true)
+	{
+		ret = true;
+	}
+
+	return ret;
+}
+
 //修了時処理
 void Enemy_Harpy::Finalize()
 {
@@ -70,10 +98,13 @@ void Enemy_Harpy::Finalize()
 }
 
 //当たり判定通知処理
-//void Enemy::OnHitCollision(GameObject* hit_object)
-//{
-//	//あたった時の処理
-//}
+void Enemy_Harpy::OnHitCollision(GameObject* hit_object)
+{
+	//あたった時の処理
+	hit = true;
+
+	is_count = true;
+}
 //
 //移動処理
 void Enemy_Harpy::Movement()
@@ -81,10 +112,10 @@ void Enemy_Harpy::Movement()
 	//右へ移動し続ける
 	location.x += 0.8f;
 	//右の壁に当たると左の壁に行く
-	if (location.x >= 640.0f)
+	/*if (location.x >= 640.0f)
 	{
 		location.x = 0.0f;
-	}
+	}*/
 }
 //あにめーしょん制御
 void Enemy_Harpy::AnimeControl()

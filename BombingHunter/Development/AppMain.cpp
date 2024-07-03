@@ -25,28 +25,53 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//描画先を裏画面から始めるように指定する
 	SetDrawScreen(DX_SCREEN_BACK);
 
+
 	try
 	{
 		//シーンの初期化
 		scene->Initialize();
+		int get_time = GetNowCount();
+		int set_time = get_time + 60000;
+		int image = LoadGraph("Resource/Images/Evaluation/Finish.png");
+		int bgm = LoadSoundMem("Resource/Sounds/Evaluation/BGM_arrows.wav");
+		ChangeVolumeSoundMem(100, bgm);
+		
 
 		//メインループ（ウインドウの異常発生）
 		while (ProcessMessage() != -1 && CheckHitKey(KEY_INPUT_ESCAPE) != TRUE)
 		{
-			//入力機能の更新
-			InputControl::Update();
+			PlaySoundMem(bgm, DX_PLAYTYPE_LOOP, FALSE);
+			while (GetNowCount() - set_time < 60000)
+			{
+				//入力機能の更新
+				InputControl::Update();
 
-			//シーンの更新処理
-			scene->Update();
+				//シーンの更新処理
+				scene->Update();
 
-			//画面の初期化
-			ClearDrawScreen();
+				int time = GetNowCount();
 
-			//シーンの描画処理
-			scene->Draw();
+				int time_time = (set_time - time) / 1000;
 
-			//裏画面の内容を表画面に反映する
-			ScreenFlip();
+				if (time_time <= -1)
+				{
+					DeleteSoundMem(bgm);
+					break;
+				}
+
+				//画面の初期化
+				ClearDrawScreen();
+				//シーンの描画処理
+				scene->Draw();
+				DrawFormatString(80.0f, 460.0f, GetColor(255, 255, 255), "%d",time_time);
+				if (time_time == 0)
+				{
+					scene->Sc();
+				}
+				//裏画面の内容を表画面に反映する
+				ScreenFlip();
+				
+			}
 		}
 	}
 	catch (const char* error_log)
@@ -61,6 +86,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//シーン情報の消去する
 	if (scene != nullptr)
 	{
+	
 		scene->Finalize();
 		delete scene;
 		scene = nullptr;

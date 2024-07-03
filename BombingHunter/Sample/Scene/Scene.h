@@ -7,6 +7,7 @@ class Scene
 {
 private:
 	std::vector<GameObject*>objects;
+	int count;
 
 public:
 	Scene();

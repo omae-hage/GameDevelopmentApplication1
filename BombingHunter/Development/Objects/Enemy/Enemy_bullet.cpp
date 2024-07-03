@@ -27,7 +27,7 @@ void Enemy_bullet::Initialize()
 	//初期画像の設定
 	image = images;
 
-	////初期振興報告の設定
+	type = enemy_bullet;
 	
 }
 
@@ -66,7 +66,7 @@ void Enemy_bullet::Finalize()
 void Enemy_bullet::OnHitCollision(GameObject* hit_object)
 {
 	//あたった時の処理
-	direction = 0.0f;
+	
 }
 
 //移動処理

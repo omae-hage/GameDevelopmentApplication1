@@ -7,15 +7,17 @@
 //コンストラクタ
 Player::Player() : animation_count(0), flip_flag(FALSE)
 {
-	animation[0] = NULL;
-	animation[1] = NULL;
+	animation[0] = 0;
+	animation[1] = 0;
 }
+
 
 //デストラクタ
 Player::~Player()
 {
 
 }
+
 
 //初期化処理
 void Player::Initialize()
@@ -35,6 +37,8 @@ void Player::Initialize()
 	scale = 30.0;
 	//初期画像の設定
 	image = animation[0];
+
+	type = player;
 }
 
 //更新処理
@@ -44,9 +48,8 @@ void Player::Update()
 	Movement();
 	//アニメーション制御
 	AnimeControl();
-
-
 }
+
 //描画処理
 void Player::Draw() const
 {
@@ -56,12 +59,15 @@ void Player::Draw() const
 	//でバック用
 #if _DEBUG
 	//当たり判定のかしか
-	Vector2D ul = location - (scale / 2.0f);
-	Vector2D br = location + (scale / 2.0f);
+	Vector2D box_collision_upper_left = location - (scale / 2.0f);
+	Vector2D box_collision_lower_right = location + (scale / 2.0f);
 
-	DrawBoxAA(ul.x, ul.y, br.x, br.y, GetColor(255, 0, 0), FALSE);
+	DrawBoxAA(box_collision_upper_left.x, box_collision_upper_left.y,
+		box_collision_lower_right.x, box_collision_lower_right.y,
+		GetColor(255, 0, 0), FALSE);
 
 #endif
+
 }
 
 //修了時処理

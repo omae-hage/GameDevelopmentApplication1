@@ -5,6 +5,9 @@ class Bom : public GameObject
 {
 private:
 	int images;
+	int se;
+	int hit;
+
 private:
 	//int animation[2];  //アニメーション画像
 	//int animation_count; //アニメーション時間
@@ -20,8 +23,10 @@ public:
 	virtual void Finalize() override;  //修了時処理
 
 
-	//あ有判定通知処理
+	//あたり判定通知処理
 	virtual void OnHitCollision(GameObject* hit_object) override;
+	//オブジェクト消去
+	virtual bool  deleteObject()  override;
 
 private:
 	//移動処理

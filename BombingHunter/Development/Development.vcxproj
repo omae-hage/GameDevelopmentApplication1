@@ -132,6 +132,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="Objects\Enemy\Enemy_kin.cpp" />
+    <ClCompile Include="Objects\Bom_FX.cpp" />
     <ClCompile Include="Objects\Enemy\Enemy_bullet.cpp" />
     <ClCompile Include="Objects\Enemy\Enemy_Harpy.cpp" />
     <ClCompile Include="Objects\Enemy\Enemy_hane.cpp" />
@@ -144,6 +146,8 @@
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\Enemy\Enemy_kin.h" />
+    <ClInclude Include="Objects\Bom_FX.h" />
     <ClInclude Include="Objects\Enemy\Enemy_bullet.h" />
     <ClInclude Include="Objects\Enemy\Enemy_Harpy.h" />
     <ClInclude Include="Objects\Enemy\Enemy_hane.h" />

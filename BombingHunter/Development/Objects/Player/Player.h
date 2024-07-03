@@ -6,6 +6,7 @@ private:
 	int animation[2];  //アニメーション画像
 	int animation_count; //アニメーション時間
 	int flip_flag;  //反転グラフ
+	
 
 public:
 	Player();
@@ -23,5 +24,6 @@ private:
 	void Movement();
 	//アニメーション制御
 	void AnimeControl();
+	
 
 	};

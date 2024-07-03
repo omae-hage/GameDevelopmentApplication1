@@ -1,5 +1,16 @@
 #pragma once
 #include "../Utility/Vector2D.h"
+
+#define player (10)
+#define enemy (20)
+#define enemy_hane (30)
+#define enemy_Harpy (40)
+#define enemy_bullet (50)
+#define bom_fx (60)
+#define bom (70)
+#define enemy_kin (80)
+
+
 class GameObject
 {
 protected:
@@ -9,6 +20,8 @@ protected:
 	double radian;
 	int image;
 	int sound;
+	int type;
+	int count;
 
 public:
 	GameObject();
@@ -26,6 +39,18 @@ public:
 	Vector2D GetLocation() const;
 	//ˆÊ’uî•ñ•ÏXˆ—
 	void SetLocation(const Vector2D& location);
+
+	Vector2D GetBoxSize() const;
+
+	
+
+	 int GetType();
+	 void SetType(int object_type);
+
+
+	virtual bool deleteObject();
+	virtual bool sc_count();
+
 };
 
 

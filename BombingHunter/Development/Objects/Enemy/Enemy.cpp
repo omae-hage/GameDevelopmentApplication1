@@ -3,7 +3,7 @@
 #include"DxLib.h"
 
 //コンストラクタ
-Enemy::Enemy() : animation_count(0), flip_flag(FALSE)/*set_taim()*/
+Enemy::Enemy() : animation_count(0), flip_flag(FALSE)/*set_taim()*/ ,se(),hit(),rand(),is_count()
 {
 	animation[0] = NULL;
 	animation[1] = NULL;
@@ -21,6 +21,7 @@ void Enemy::Initialize()
 	//画像の読み込み
 	animation[0] = LoadGraph("Resource/Images/BoxEnemy/1.png");
 	animation[1] = LoadGraph("Resource/Images/BoxEnemy/2.png");
+	se = LoadSoundMem("Resource/Sounds/teki_gahee.wav");
 	/*set_taim = GetNowCount();*/
 
 	//エラーチェック
@@ -31,9 +32,14 @@ void Enemy::Initialize()
 	//向きの設定
 	radian = 0.0;
 	//大きさの設定
-	scale = 20.0;
+	 box_size= 2.0;
 	//初期画像の設定
 	image = animation[0];
+
+
+	type = enemy;
+
+	/*rand = GetRand(1);*/
 }
 
 //更新処理
@@ -44,20 +50,23 @@ void Enemy::Update()
 	//アニメーション制御
 	AnimeControl();
 
+
 }
 
 
 //描画処理
 void Enemy::Draw() const
 {
+	
+
 	//エネミーー画像の描画
 	DrawRotaGraphF(location.x, location.y, 0.7, radian, image, TRUE, flip_flag);
 
 	//でバック用
 #if _DEBUG
 	//当たり判定のかしか
-	Vector2D ul = location - (scale / 1.0f);
-	Vector2D br = location + (scale / 1.0f);
+	Vector2D ul = location - (box_size / 1.0f);
+	Vector2D br = location + (box_size/ 1.0f);
 
 	DrawBoxAA(ul.x, ul.y, br.x, br.y, GetColor(255, 0, 0), FALSE);
 
@@ -73,22 +82,53 @@ void Enemy::Finalize()
 }
 
 //当たり判定通知処理
-//void Enemy::OnHitCollision(GameObject* hit_object)
-//{
-//	//あたった時の処理
-//}
-//
+void Enemy::OnHitCollision(GameObject* hit_object)
+{
+	//あたった時の処理
+	hit = true;
+
+	is_count = true;
+}
+
 //移動処理
 void Enemy::Movement()
 {
 	//右へ移動し続ける
 	location.x += 1.0f;
-	//右の壁に当たると左の壁に行く
-	if (location.x >= 640.0f)
+	////右の壁に当たると左の壁に行く
+	/*if (location.x >= 640.0f)
 	{
 		location.x = 0.0f;
-	}
+	}*/
 }
+
+//スコアを計算する時の処理
+bool Enemy::sc_count()
+{
+	bool com = false;
+
+	if (is_count == true)
+	{
+		com = true;
+	}
+
+	return com;
+}
+
+//オブジェクト消しますの処理
+bool Enemy::deleteObject()
+{
+	bool ret = false;
+
+	if (location.x > 640.0f + box_size.x || location.x < 0.0f - box_size.x || hit == true)
+	{
+		ret = true;
+	}
+
+	return ret;
+
+}
+
 //あにめーしょん制御
 void Enemy::AnimeControl()
 {
